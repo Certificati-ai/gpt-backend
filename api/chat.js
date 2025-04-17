@@ -1,26 +1,15 @@
-// File: /api/chat.js
+import express from 'express';
+import cors from 'cors';
+import fetch from 'node-fetch';
 
-export default async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const app = express();
+const port = process.env.PORT || 3000;
 
-  // Handle preflight request
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+app.use(cors());
+app.use(express.json());
 
-  // Only POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
-
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
-  }
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -31,26 +20,23 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'gpt-4o',
-        messages: [{ role: 'user', content: message }],
-        stream: false, // Non streaming per ora, più compatibile su Vercel
+        messages: [{ role: 'user', content: message }]
       }),
     });
 
     const data = await response.json();
-
-    // Logging debug in Vercel
-    console.log('✅ OPENAI raw response:', JSON.stringify(data, null, 2));
-
-    // Gestione errori OpenAI
-    if (data.error) {
-      console.error('❌ OpenAI Error:', data.error);
-      return res.status(500).json({ error: 'OpenAI error: ' + data.error.message });
-    }
+    console.log("✅ OPENAI raw response:", JSON.stringify(data, null, 2));
 
     const text = data.choices?.[0]?.message?.content || 'No response from AI';
     res.status(200).json({ text });
+
   } catch (error) {
-    console.error('❌ Catch Error:', error);
+    console.error('❌ Error:', error);
     res.status(500).json({ error: 'Error processing request' });
   }
-}
+});
+
+app.listen(port, () => {
+  console.log(`✅ Server is running on port ${port}`);
+});
+
