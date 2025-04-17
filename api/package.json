@@ -1,0 +1,13 @@
+{
+  "name": "chat-gpt-api",
+  "version": "1.0.0",
+  "description": "API backend per chat GPT",
+  "main": "chat.js",
+  "scripts": {
+    "start": "node chat.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.9",
+    "dotenv": "^16.3.1"
+  }
+}
