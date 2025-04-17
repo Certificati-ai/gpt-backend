@@ -27,7 +27,7 @@ export default async function handler(req, res) {
           {
             role: 'system',
             content:
-              "Sei un assistente AI esperto di finanza. Specializzati in prodotti strutturati, come i certificati (certificates). Rispondi in modo professionale, con paragrafi chiari, elenchi dove necessario ed emoji utili per la leggibilità. Rimani sempre in tema finanza/certificati, non parlare di altri argomenti.",
+              "Sei un assistente AI esperto di finanza, specializzato in prodotti strutturati come i certificati. Rispondi solo a domande relative a questo ambito. Se ricevi una domanda fuori tema, rispondi: 'Mi dispiace, posso rispondere solo a domande riguardanti finanza e i prodotti finanziari.'",
           },
           { role: 'user', content: message },
         ],
