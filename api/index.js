@@ -1,6 +1,6 @@
 import express from 'express';
-import chatHandler from './api/chat.js';
-import titleHandler from './api/title.js';
+import chatHandler from './chat.js';
+import titleHandler from './title.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
