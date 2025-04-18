@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function (req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -36,7 +36,6 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // Log per debugging su Render o Vercel
     console.log("✅ OPENAI raw response:", JSON.stringify(data, null, 2));
 
     const text = data.choices?.[0]?.message?.content || 'Nessuna risposta ricevuta.';
